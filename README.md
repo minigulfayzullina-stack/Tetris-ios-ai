@@ -38,8 +38,9 @@ Sources/
     PieceType+Color.swift      shape colours (view layer only)
 Assets.xcassets                asset catalog
 ci/ExportOptions.plist         export settings for signed builds
+ci/build-ipa.sh                the actual build (XcodeGen, sign, archive, export)
 Tools/linux-rules-check/       runs the rule checks without Xcode
-.github/workflows/ios-ipa.yml  the build pipeline
+.github/workflows/ios-ipa.yml  thin CI wrapper that calls ci/build-ipa.sh
 ```
 
 The project is defined by `project.yml` rather than a committed
@@ -56,6 +57,13 @@ open Tetris.xcodeproj
 
 Push to `main`, or run **Actions → Build iOS IPA → Run workflow**. Either way
 the `.ipa` ends up in the run's **Artifacts** section.
+
+The build logic lives in `ci/build-ipa.sh` so it can also be run by hand on any
+Mac:
+
+```sh
+ci/build-ipa.sh
+```
 
 ### Unsigned (works right now)
 
