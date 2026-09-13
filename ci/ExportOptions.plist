@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- __METHOD__ and __TEAM__ are substituted by the workflow at build time. -->
+	<key>method</key>
+	<string>__METHOD__</string>
+
+	<key>teamID</key>
+	<string>__TEAM__</string>
+
+	<!-- Manual signing: the exact certificate and profile were imported
+	     into a temporary keychain by the workflow. -->
+	<key>signingStyle</key>
+	<string>manual</string>
+
+	<key>stripSwiftSymbols</key>
+	<true/>
+
+	<key>uploadSymbols</key>
+	<true/>
+
+	<key>compileBitcode</key>
+	<false/>
+
+	<key>destination</key>
+	<string>export</string>
+</dict>
+</plist>

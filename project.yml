@@ -1,0 +1,50 @@
+name: Tetris
+
+# XcodeGen turns this file into Tetris.xcodeproj. Keeping the project as a
+# spec avoids the usual merge conflicts in project.pbxproj, and it means the
+# project can be regenerated anywhere with `xcodegen generate`.
+
+options:
+  bundleIdPrefix: com.minigulfayzullina
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  Tetris:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+      - path: Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.minigulfayzullina.tetris
+        PRODUCT_NAME: Tetris
+        # Info.plist is generated from these keys, so there is no plist to keep
+        # in sync when the app settings change.
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Tetris
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        TARGETED_DEVICE_FAMILY: "1,2"
+        # No icon asset yet; leaving this empty avoids a missing-icon warning.
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+        CODE_SIGN_STYLE: Automatic
+
+schemes:
+  Tetris:
+    build:
+      targets:
+        Tetris: all
+    run:
+      config: Debug
+    archive:
+      config: Release
