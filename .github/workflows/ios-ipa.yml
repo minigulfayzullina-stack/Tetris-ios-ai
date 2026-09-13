@@ -1,0 +1,46 @@
+name: Build iOS IPA
+
+# Thin wrapper: all the build logic lives in ci/build-ipa.sh, which can also be
+# run by hand on a Mac. Produces a signed .ipa when the signing secrets below
+# are set, and an unsigned one otherwise.
+#
+# Secrets (Settings > Secrets and variables > Actions):
+#   BUILD_CERTIFICATE_BASE64, P12_PASSWORD,
+#   PROVISIONING_PROFILE_BASE64, KEYCHAIN_PASSWORD, APPLE_TEAM_ID
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      export_method:
+        description: "development | ad-hoc | app-store | enterprise"
+        default: development
+      configuration:
+        default: Release
+
+jobs:
+  ipa:
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      CONFIGURATION: ${{ github.event.inputs.configuration || 'Release' }}
+      EXPORT_METHOD: ${{ github.event.inputs.export_method || 'development' }}
+      BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+      P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+      PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+      KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build .ipa
+        run: ci/build-ipa.sh
+
+      - name: Upload .ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: dist/*.ipa
+          if-no-files-found: error
+          retention-days: 14
